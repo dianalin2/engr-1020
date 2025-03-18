@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navy Computing Systems</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<!--  look in onenote for format -->
+<body class = "everything" >
+    <nav class = "nav"> <!-- top nav bar: search bar & profile -->
+        <input class="searchContentBar" type="text" id="searchFiles" onkeyup="myFunction()"
+              placeholder="Search models...">
+    </nav>
+
+    <main class = "mainbody">
+        <div class="sidebar"> <!-- side bar: bunch of buttons with different functions -->
+            <button class="mainB" id="dasboardButton">
+                Dashboard
+            </button>
+            <button class="mainB" id="systemsButton">
+                Systems
+            </button>
+            <button class="mainB" id="uploadButton">
+              Upload
+            </button>
+            <button class="mainB" id="guideButton">
+                Guide
+            </button>
+
+            <button class="setB" id="settingsButton">
+                Settings
+            </button>
+            <button class="logB" id="logoutButton">
+                Logout
+            </button>
+        </div>
+
+        <div class = "sidedisplay"> <!-- display: everything else (shows models) -->
+            
+        </div>
+
+        <script>      
+            document.getElementById('uploadButton').onclick = () => {
+                // code to open file explorer to upload things
+            }
+        </script>
+    </main>
+</body>
+
