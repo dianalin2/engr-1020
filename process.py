@@ -1,5 +1,6 @@
 import glob
 import pandas as pd
+from llm import generate_component_attributes, generate_sysml
 
 # read all csv files in data folder into pandas dataframe
 def read_data():
@@ -13,3 +14,15 @@ def read_data():
 # print json representation of data
 df = read_data()
 print(df.to_json(orient='records'))
+
+# generate sysml v2 textual class specification for a hardware component based on the column names of the dataframe
+uml_class = generate_component_attributes(df.columns.tolist())
+
+# for each row in the dataframe, generate sysml v2 block definition
+for row in df.iterrows():
+    row = row[1].to_dict()
+
+    # generate sysml v2 block definition for a hardware component
+    uml_block = generate_sysml(row, uml_class)
+    print(uml_block)
+    
