@@ -8,4 +8,6 @@ We are using MongoDB for the database because it stores data in “documents,”
 
 We are using Llama for our LLM. Llama can be deployed on-premises, which reduces the security overheads of using LLMs because it does not access external servers. While the computing power needed for this solution is much higher than an externally provided LLM, this is not a restriction for our client, as mentioned in a previous client interview. 
 
-![Flowchart](/docs/flowchart.jpg)
+<p align="center">
+  <img src="https://github.com/dianalin2/engr-1020/blob/main/docs/flowchart.jpg?raw=true" />
+</p>
