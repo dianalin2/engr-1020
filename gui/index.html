@@ -1,38 +1,41 @@
+<!--  this is the code for the frontend display -->
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- metadata to set up electron app -->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Navy Computing Systems</title>
   <link rel="stylesheet" href="index.css">
 </head>
-<!--  look in onenote for format -->
-<body class = "everything" >
+
+<!--  look in onenote for general format -->
+<body class = "everything" > <!-- container for all the visual stuff -->
     <nav class = "nav"> <!-- top nav bar: search bar & profile -->
-        <input class="searchContentBar" type="text" id="searchFiles" onkeyup="myFunction()"
-              placeholder="Search models...">
+        <input class="searchContentBar" type="text" id="searchFiles" onkeyup="myFunction()" 
+              placeholder="Search models..."> <!-- search bar to more easily find and access specific models -->
     </nav>
 
     <main class = "mainbody">
         <div class="sidebar"> <!-- side bar: bunch of buttons with different functions -->
-            <button class="mainB" id="dasboardButton">
+            <button class="mainB" id="dasboardButton"> <!-- button that will bring user to their dashboard (profile) -->
                 Dashboard
             </button>
-            <button class="mainB" id="systemsButton">
+            <button class="mainB" id="systemsButton"> <!-- button that will pull up the various system models -->
                 Systems
             </button>
-            <button class="mainB" id="uploadButton">
+            <button class="mainB" id="uploadButton"> <!-- open file explorer to select a csv data file to upload -->
               Upload
             </button>
-            <button class="mainB" id="guideButton">
+            <button class="mainB" id="guideButton"> <!-- tutorial on how to use our desktop app -->
                 Guide
             </button>
 
-            <button class="setB" id="settingsButton">
+            <button class="setB" id="settingsButton"> <!-- settings: specify amount of security/privacy, change password, display settings, etc. -->
                 Settings
             </button>
-            <button class="logB" id="logoutButton">
+            <button class="logB" id="logoutButton"> <!-- logs user out of their account -->
                 Logout
             </button>
         </div>
