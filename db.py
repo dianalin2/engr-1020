@@ -3,9 +3,12 @@ from pymongo.server_api import ServerApi
 import pymongo
 from dotenv import load_dotenv
 import os
-from process import df
+from process import read_data
+import sys
 
 load_dotenv()
+
+df = read_data(sys.argv[1])
 
 uri = os.getenv("DB_uri")
 
@@ -18,9 +21,6 @@ data = db["data"]
 # have some identifier that is unique so that data will only appear once in the database
 db.data.create_index([("Asset Identifier", pymongo.ASCENDING), ("Serial Number"), ("Location ID")], unique=True)
 data.insert_many(df.to_dict(orient = 'records'), ordered = False)
-
-
-
 
 # ping to confirm connection
 try:

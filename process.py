@@ -3,17 +3,15 @@ import pandas as pd
 # from llm import generate_component_attributes, generate_sysml
 
 # read all csv files in data folder into pandas dataframe
-def read_data():
+def read_data(filename):
     df = pd.DataFrame()
 
-    for filename in glob.glob('data/*.csv'):
-        df = pd.concat([df, pd.read_csv(filename)])
+    # for filename in glob.glob('data/*.csv'):
+    df = pd.concat([df, pd.read_csv(filename)])
 
     return df
 
 # print json representation of data
-df = read_data()
-print(df.to_json(orient='records'))
 
 # generate sysml v2 textual class specification for a hardware component based on the column names of the dataframe
 # uml_class = generate_component_attributes(df.columns.tolist())

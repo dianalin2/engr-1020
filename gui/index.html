@@ -12,6 +12,7 @@
 
 <!--  look in onenote for general format -->
 <body class = "everything" > <!-- container for all the visual stuff -->
+    
     <nav class = "nav"> <!-- top nav bar: search bar & profile -->
         <input class="searchContentBar" type="text" id="searchFiles" onkeyup="myFunction()" 
               placeholder="Search models..."> <!-- search bar to more easily find and access specific models -->
@@ -25,7 +26,7 @@
             <button class="mainB" id="systemsButton"> <!-- button that will pull up the various system models -->
                 Systems
             </button>
-            <button class="mainB" id="uploadButton"> <!-- open file explorer to select a csv data file to upload -->
+            <button class="mainB" id="btn"> <!-- open file explorer to select a csv data file to upload -->
               Upload
             </button>
             <button class="mainB" id="guideButton"> <!-- tutorial on how to use our desktop app -->
@@ -49,6 +50,8 @@
                 // code to open file explorer to upload things
             }
         </script>
+
+        <script src='./renderer.js'></script>
     </main>
 </body>
 
