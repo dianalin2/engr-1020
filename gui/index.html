@@ -20,40 +20,72 @@
 
     <main class = "mainbody">
         <div class="sidebar"> <!-- side bar: bunch of buttons with different functions -->
-            <button class="mainB" id="dasboardButton"> <!-- button that will bring user to their dashboard (profile) -->
+            <button class="mainB" id="dasboardButton" onclick="sectionChange('dashboard')"> <!-- button that will bring user to their dashboard (profile) -->
                 Dashboard
             </button>
-            <button class="mainB" id="systemsButton"> <!-- button that will pull up the various system models -->
+            <button class="mainB" id="systemsButton" onclick="sectionChange('systems')"> <!-- button that will pull up the various system models -->
                 Systems
             </button>
             <button class="mainB" id="btn"> <!-- open file explorer to select a csv data file to upload -->
               Upload
             </button>
-            <button class="mainB" id="guideButton"> <!-- tutorial on how to use our desktop app -->
+            <button class="mainB" id="guideButton" onclick="sectionChange('guide')"> <!-- tutorial on how to use our desktop app -->
                 Guide
             </button>
 
-            <button class="setB" id="settingsButton"> <!-- settings: specify amount of security/privacy, change password, display settings, etc. -->
+            <button class="setB" id="settingsButton" onclick="sectionChange('settings')"> <!-- settings: specify amount of security/privacy, change password, display settings, etc. -->
                 Settings
             </button>
-            <button class="logB" id="logoutButton"> <!-- logs user out of their account -->
+            <button class="logB" id="logoutButton" onclick="window.close()"> <!-- logs user out of their account -->
                 Logout
             </button>
-        </div>
-
-        <div class = "sidedisplay"> <!-- display: everything else (shows models) -->
             
         </div>
 
+        <div class = "sidedisplay"> <!-- display: everything else (shows models) -->
+            <div id="dashboard">
+                <button class = "refresh" onClick="refreshPage()">Refresh</button>
+            </div>
+
+            <div id="systems">
+                <button class = "refresh" onClick="refreshPage()">Refresh</button>
+            </div>
+
+            <div id="guide">
+                <h1>Guide</h1>
+                    <p>Welcome to the guide! Here you will find information on how to use the app.</p>
+                    <p>To upload a file, click the Upload button on the left sidebar.</p>
+                    <p>To view your dashboard, click the Dashboard button.</p>
+                    <p>To view the systems, click the Systems button.</p>
+                    <p>To change settings, click the Settings button.</p>
+                    <p>To log out and exit, click the Exit button.</p>
+            </div>
+
+            <div id="settings">
+
+            </div>
+
+        </div>
+        
         <script>      
-            document.getElementById('uploadButton').onclick = () => {
-                // code to open file explorer to upload things
-            }
+            function refreshPage(){
+                window.location.reload();
+            } 
+            function sectionChange(id){
+                document.getElementById(id).style.display = "block"; // show the selected section
+                document.querySelectorAll('.sidedisplay > div').forEach(function(div) {
+                    if (div.id !== id) {
+                        div.style.display = "none"; // hide all other sections
+                    }
+                });
+            } 
+            
+            sectionChange('dashboard'); // default to dashboard on load
         </script>
 
         <script src='./renderer.js'></script>
 
-        <script>
+        <!-- <script>
             document.getElementById('guideButton').onclick = () => {
                 const display = document.querySelector('.sidedisplay');
                 display.innerHTML = `
@@ -66,7 +98,7 @@
                     <p>To log out and exit, click the Exit button.</p>
                 `;
             }
-        </script>
+        </script> -->
     </main>
 </body>
 
