@@ -76,3 +76,17 @@
     padding: 20px;
     overflow-y: auto;
 }
+
+.guideContent {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .guideContent h2 {
+    color: navy;
+  }
+  
+  .guideContent ol {
+    margin-left: 20px;
+  }
+  
