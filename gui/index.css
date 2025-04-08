@@ -10,7 +10,7 @@
 }
 
 .nav {
-    background-color: #1f2937;
+    background-color: #383F51;
     color: white;
     padding: 10px 20px;
     display: flex;
@@ -34,7 +34,7 @@
 /* Sidebar styling */
 .sidebar {
     width: 250px;
-    background-color: #374151;
+    background-color: #3C4F76;
     padding: 15px;
     display: flex;
     flex-direction: column;
@@ -51,17 +51,17 @@
 }
 
 .mainB {
-    background-color: #4b5563;
+    background-color: #5e7197;
     color: white;
 }
 
 .setB {
-    background-color: #6b7280;
+    background-color: #98bbec;
     color: white;
 }
 
 .logB {
-    background-color: #dc2626;
+    background-color: #C44242;
     color: white;
 }
 
@@ -72,7 +72,7 @@
 /* Main content area */
 .sidedisplay {
     flex: 1;
-    background-color: rgb(250, 228, 190);
+    background-color: #E6E6F0;
     padding: 20px;
     overflow-y: auto;
 }
