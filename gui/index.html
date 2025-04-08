@@ -52,6 +52,19 @@
         </script>
 
         <script src='./renderer.js'></script>
+
+        <script>
+            document.getElementById('guideButton').onclick = () => {
+                const display = document.querySelector('.sidedisplay');
+                display.innerHTML = `
+                    <h1>Guide</h1>
+                    <p>Welcome to the guide! Here you will find information on how to use the app.</p>
+                    <p>To upload a file, click the Upload button on the left sidebar.</p>
+                    <p>To view your dashboard, click the Dashboard button.</p>
+                    <p>To view the systems, click the Systems button.</p>
+                `;
+            }
+        </script>
     </main>
 </body>
 
