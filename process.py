@@ -1,4 +1,3 @@
-import glob
 import pandas as pd
 # from llm import generate_component_attributes, generate_sysml
 

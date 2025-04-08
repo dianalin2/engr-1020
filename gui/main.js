@@ -3,11 +3,11 @@ const { app, BrowserWindow, shell, dialog, ipcMain } = require('electron')
 const path = require('node:path')
 const { spawn } = require('child_process');
 
-async function handleFileOpen () {
+async function handleFileOpen() {
   const { canceled, filePaths } = await dialog.showOpenDialog({})
   if (!canceled) {
     console.log(filePaths[0])
-    const child = spawn('py', ['../db.py', filePaths[0]],);
+    const child = spawn('py', ['../push_file_to_db.py', filePaths[0]],);
     child.stdout.pipe(process.stdout)
     child.stderr.pipe(process.stderr)
 
