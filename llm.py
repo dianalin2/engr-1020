@@ -6,7 +6,7 @@ def generate_component_attributes(component):
     pipe = pipeline("text-generation", model="meta-llama/Llama-3.2-3B-Instruct")
     # pipe = pipeline("text-generation", model="meta-llama/Llama-3.3-70B-Instruct")
     return pipe([
-        { "role": "system", "content": """You generate SysML v2 textual diagram class specifications for hardware with the hardware components that the user gives you. Respond with only the SysML v2 Textual Representation of the singular class, not formatted in any way. An example of a generated class (where "class" and "attribute" are keywords) is as follows:
+        { "role": "system", "content": """You generate SysML v2 textual diagram class specifications for hardware with the hardware components that the user gives you. Respond with only the SysML v2 Textual Representation of the singular class, not formatted in any way. An example of a generated class (where "class" and "attribute" are keywords, and HardwareAsset is the class name) is as follows:
 class HardwareAsset {
     attribute assetIdentifier: String;
     attribute manufacturer: String;
@@ -47,28 +47,28 @@ You generate SysML v2 textual diagrams for JSON data of hardware components that
 
 Respond with only the SysML v2 Textual Representation, not formatted with backticks or with any other formatting.
 
-An example of a generated block definition (where "part" is a keyword) is as follows:
+An example of a generated block definition (where "part" and "attribute" are keywords) is as follows (the class name is the same as the class name in the class specification):
 
-part hardwareAsset1: HardwareAsset {
-    assetIdentifier = "77020";
-    manufacturer = "TECHNICAL MFG CO.";
-    modelNumber = "77A-440-02";
-    assetName = "TABLE W/VIBRATION ISOLATIONSYSTEM";
-    serialNumber = "2001238";
-    comments = "S. RAY TAYLOR";
-    assetCostAmount = 5460.37;
-    netBookValueAmount = 0.0;
-    ownership = "11 UVA Owned";
-    inventoryDate = "2022-05-19";
-    datePlacedInService = "1997-09-24";
-    usefulLifePeriods = 120;
-    assetType = "562 Other Lab Equipment";
-    oldTagNumber = "77020";
-    locationID = "FM_0270_03_362";
-    buildingName = "304 Research Lab";
-    buildingNumber = "BL0270";
-    floor = "03";
-    roomNumber = "362";
+part Computer: HardwareAsset {
+    attribute assetIdentifier = "77020";
+    attribute manufacturer = "TECHNICAL MFG CO.";
+    attribute modelNumber = "77A-440-02";
+    attribute assetName = "TABLE W/VIBRATION ISOLATIONSYSTEM";
+    attribute serialNumber = "2001238";
+    attribute comments = "S. RAY TAYLOR";
+    attribute assetCostAmount = 5460.37;
+    attribute netBookValueAmount = 0.0;
+    attribute ownership = "11 UVA Owned";
+    attribute inventoryDate = "2022-05-19";
+    attribute datePlacedInService = "1997-09-24";
+    attribute usefulLifePeriods = 120;
+    attribute assetType = "562 Other Lab Equipment";
+    attribute oldTagNumber = "77020";
+    attribute locationID = "FM_0270_03_362";
+    attribute buildingName = "304 Research Lab";
+    attribute buildingNumber = "BL0270";
+    attribute floor = "03";
+    attribute roomNumber = "362";
 }
         '''.strip() },
         { "role": "user", "content": json_data }
