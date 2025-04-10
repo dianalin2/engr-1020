@@ -1,12 +1,13 @@
+.everything, button, input {
+    font-family: Poppins, sans-serif;
+}
+
 .everything {
-    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
     height: 100vh;
-
-    
 }
 
 .nav {
@@ -16,13 +17,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: 25px;
 }
 
-.searchContentBar {
-    padding: 8px;
-    width: 250px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+.title {
+    font-weight: 600;
 }
 
 /* Main content layout */
@@ -71,9 +70,36 @@
 
 /* Main content area */
 .sidedisplay {
-    flex: 1;
     background-color: #E6E6F0;
     padding: 20px;
     overflow-y: auto;
+    width: 100%;
 }
-  
+
+.main-flex {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.searchContentBar {
+    padding: 8px;
+    width: 250px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.refresh {
+    background-color: #5e7197; /* Green */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    align-self: flex-end;
+}  
+
+.refresh:hover {
+    opacity: 0.9;
+}
