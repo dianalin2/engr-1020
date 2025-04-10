@@ -2,3 +2,4 @@ data/
 gui/node_modules/
 .env
 __pycache__/
+models/

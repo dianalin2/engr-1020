@@ -25,17 +25,44 @@ if class_spec.count_documents({}) == 0:
 else:
     uml_class = class_spec.find_one()["class_spec"]
 
-print(uml_class)
-
 # have some identifier that is unique so that data will only appear once in the database. then loop through the data and update with the new class spec
+models = []
+models_by_room = {}
 db.data.create_index([("Asset Identifier", pymongo.ASCENDING), ("Serial Number"), ("Location ID")], unique=True)
 for doc in data.find():
     # check if the document has the "model" field
-    if "model" not in doc or os.getenv("FORCE_UPDATE") == "true":
+    if "model" in doc:
         # update the document with the new class spec, generate a sysml v2 textual class specification for a hardware component based on the content of the document
+        if doc["Location ID"] not in models_by_room:
+            models_by_room[doc["Location ID"]] = []
 
-        doc_copy = doc.copy()
-        doc_copy['_id'] = str(doc_copy['_id'])
+        models_by_room[doc["Location ID"]].append(doc["model"])
 
-        uml_class = generate_sysml(json.dumps(doc_copy), uml_class)
-        data.update_one({"_id": doc["_id"]}, {"$set": {"model": uml_class}})
+# create new temp folder
+import os
+import tempfile
+import datetime
+
+dir = "models/" + datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+os.makedirs(dir, exist_ok=True)
+# print(f"Temporary directory created at: {dir}")
+# create a file in the temp folder
+with open(os.path.join(dir, "models.sysml"), "w") as f:
+    # print(f"Writing models to {os.path.join(dir, 'models.txt')}")
+    f.write(uml_class + "\n")
+    for room, models in models_by_room.items():
+        f.write(f"package {room} {{\n")
+        for model in models:
+            for line in model.splitlines():
+                f.write(f"  {line}\n")
+        f.write("}\n")
+
+# save the model name to the database
+model_collection = db["model"]
+model_collection.create_index([("name", pymongo.ASCENDING)], unique=True)
+model_collection.insert_one({"name": os.path.join(dir, 'models.sysml')})
+
+# print the model name
+print(os.path.join(dir, 'models.sysml'))
+
+
