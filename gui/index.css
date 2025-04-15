@@ -1,4 +1,6 @@
-.everything, button, input {
+.everything,
+button,
+input {
     font-family: Poppins, sans-serif;
 }
 
@@ -90,7 +92,8 @@
 }
 
 .refresh {
-    background-color: #5e7197; /* Green */
+    background-color: #5e7197;
+    /* Green */
     color: white;
     padding: 10px 20px;
     border: none;
@@ -98,8 +101,58 @@
     cursor: pointer;
     transition: background-color 0.3s;
     align-self: flex-end;
-}  
+}
 
 .refresh:hover {
     opacity: 0.9;
+}
+
+.hone {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: #3C4F76 0 2px 4px;
+    width: 100%;
+}
+
+.card {
+    /* background-color: #fff; */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.8);
+    margin: 20px 0;
+}
+
+.model-button {
+    background-color: #5e7197;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.model-button:hover {
+    opacity: 0.9;
+}
+
+.active {
+    /* darken the background */
+    background-color: #4a566b;
+}
+
+#toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #5e7197;
+    color: white;
+    padding: 0.1em 2em;
+    border-radius: 5em;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    z-index: -1;
 }

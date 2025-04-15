@@ -2,6 +2,35 @@
 const { app, BrowserWindow, shell, dialog, ipcMain } = require('electron')
 const path = require('node:path')
 const { spawn } = require('child_process');
+const fs = require('fs');
+
+async function handleGenerateModel(event, path) {
+  const child = spawn('py', ['../collate_open_sysml.py', path],);
+
+  return new Promise((resolve, reject) => {
+    child.stdout.on('data', (data) => {
+      resolve(data.toString());
+    });
+
+    child.stderr.on('data', (data) => {
+      console.error(`stderr: ${data}`);
+      reject(data.toString());
+    });
+  });
+}
+
+async function handleOpenModel(event, modelName) {
+  const data = fs.readFileSync(`../models/${modelName}/models.sysml`, 'utf8');
+
+  shell.openExternal("http://localhost:8080");
+
+  return data;
+}
+
+async function getAllModels() {
+  const files = fs.readdirSync('../models');
+  return files;
+}
 
 async function handleFileOpen() {
   const { canceled, filePaths } = await dialog.showOpenDialog({})
@@ -30,6 +59,9 @@ const createWindow = () => {
 
 app.whenReady().then(() => {
   ipcMain.handle('dialog:openFile', handleFileOpen)
+  ipcMain.handle('model:getAllModels', getAllModels)
+  ipcMain.handle('model:generate', handleGenerateModel)
+  ipcMain.handle('dialog:openModel', handleOpenModel)
   createWindow()
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()

@@ -3,121 +3,180 @@
 <html lang="en">
 
 <!-- metadata to set up electron app -->
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Navy Computing Systems</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="index.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navy Computing Systems</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
 </head>
 
 <!--  look in onenote for general format -->
-<body class = "everything" > <!-- container for all the visual stuff -->
-    
-    <nav class = "nav"> <!-- top nav bar: search bar & profile -->
+
+<body class="everything"> <!-- container for all the visual stuff -->
+
+    <nav class="nav"> <!-- top nav bar: search bar & profile -->
         <div class="title"> Navy Computing Systems - SysML Models </div>
     </nav>
 
-    <main class = "mainbody">
+    <main class="mainbody">
         <div class="sidebar"> <!-- side bar: bunch of buttons with different functions -->
-            <button class="mainB" id="dasboardButton" onclick="sectionChange('dashboard')"> <!-- button that will bring user to their dashboard (profile) -->
+            <button class="mainB" id="dashboardButton" onclick="sectionChange('dashboard')">
+                <!-- button that will bring user to their dashboard (profile) -->
                 Dashboard
             </button>
-            <button class="mainB" id="systemsButton" onclick="sectionChange('systems')"> <!-- button that will pull up the various system models -->
+            <button class="mainB" id="systemsButton" onclick="sectionChange('systems')">
+                <!-- button that will pull up the various system models -->
                 Systems
             </button>
             <button class="mainB" id="btn"> <!-- open file explorer to select a csv data file to upload -->
-              Upload
+                Upload
             </button>
-            <button class="mainB" id="guideButton" onclick="sectionChange('guide')"> <!-- tutorial on how to use our desktop app -->
-                Guide
+            <button class="setB" id="guideButton" onclick="sectionChange('guide')">
+                <!-- tutorial on how to use our desktop app -->
+                Our Project
             </button>
 
-            <button class="setB" id="settingsButton" onclick="sectionChange('settings')"> <!-- settings: specify amount of security/privacy, change password, display settings, etc. -->
+            <!-- <button class="setB" id="settingsButton" onclick="sectionChange('settings')">
                 Settings
-            </button>
+            </button> -->
+
             <button class="logB" id="logoutButton" onclick="window.close()"> <!-- logs user out of their account -->
                 Logout
             </button>
-            
+
         </div>
 
-        <div class = "sidedisplay"> <!-- display: everything else (shows models) -->
+        <div class="sidedisplay"> <!-- display: everything else (shows models) -->
             <div id="dashboard">
                 <div class="main-flex">
-                    <button class = "refresh" onClick="refreshPage()">Refresh</button>
+                    <button class="refresh" onClick="refreshPage()">Refresh</button>
                 </div>
 
                 <div class="update-text">
                     <!-- systems/infrastructure that needs updating -->
                 </div>
-                
+
 
             </div>
 
             <div id="systems">
                 <div class="main-flex" style="flex-direction: row; justify-content: space-between;">
-                    <input class="searchContentBar" type="text" id="searchFiles" onkeyup="myFunction()" 
-                        placeholder="Search models..."> <!-- search bar to more easily find and access specific models -->
-                    <button class = "refresh" onClick="refreshPage()">Refresh</button>
+                    <input class="searchContentBar" type="text" id="searchFiles" onkeyup="myFunction()"
+                        placeholder="Search models...">
+                    <!-- search bar to more easily find and access specific models -->
+                    <button class="refresh" onClick="refreshPage()">Refresh</button>
                 </div>
 
-                
-                <div class="card">
-                    <h2>Model 1</h2>
-                    <p>date</p>
-                    <button class="model-button">Update Model</button>
-                </div>
-                <div class="card">
-                    <h2>Model 2</h2>
-                    <p>date</p>
-                    <button class="model-button">Update Model</button>
-                </div>
-                <div class="card">
-                    <h2>Model 3</h2>
-                    <p>date</p>
-                    <button class="model-button">Update Model</button>
-                </div>
+                <div id="models"></div>
 
             </div>
 
             <div id="guide">
+                <h1>Project Description</h1>
+                <div>
+                    This is our solution to the Modeling Navy Computing Systems project! Our solution utilizes SysML
+                    models to represent the systems and their components. The models are stored in a database and can be
+                    accessed through a user-friendly interface. The interface allows users to view, edit, and create
+                    models.
+                </div>
+
                 <h1>Guide</h1>
-                    <p>Welcome to the guide! Here you will find information on how to use the app.</p>
-                    <p>To upload a file, click the Upload button on the left sidebar.</p>
-                    <p>To view your dashboard, click the Dashboard button.</p>
-                    <p>To view the systems, click the Systems button.</p>
-                    <p>To change settings, click the Settings button.</p>
-                    <p>To log out and exit, click the Exit button.</p>
+                <div class="main-flex" style="flex-direction: row; justify-content: space-between;">
+                    <div class="hone">
+                        <p>To view your dashboard, click the Dashboard button.</p>
+                        <p>To view the systems, click the Systems button.</p>
+                        <p>To change settings, click the Settings button.</p>
+                        <p>To log out and exit, click the Exit button.</p>
+                        <p>To upload a file, click the Upload button on the left sidebar.
+                            Only CSV files are accepted. The file will automatically be uploaded
+                            to the database for storage only by going through the database can the files be changed.
+                        </p>
+                    </div>
+
+                    <div class="hone">
+                        After uploading a file, go to the systems page to begin modeling your system!
+                        Each model will be stored with the date it was created/modified and the models can be searched
+                        and found this way. After selecting a model, you will be brought to the SysML website where
+                        you can create a new model. The Llama generated SysML code will automatically be copied to your
+                        clipboard for you to paste into your SysML modeling software. After the code is pasted, you can
+                        simply create the model! The models can be edited and saved to the database for future use.
+                    </div>
+
+                    <div class="hone">
+                        Upload your model back to the app, thanks dawg
+                    </div>
+                </div>
+
+                <!-- <div id="settings">
+
+            </div> -->
+
             </div>
 
-            <div id="settings">
+            <script>
+                function openToast(text, timeout) {
+                    // show toast notification
+                    const toast = document.getElementById('toast');
 
-            </div>
+                    toast.style.opacity = 1;
+                    toast.style.zIndex = 1;
 
-        </div>
-        
-        <script>      
-            function refreshPage(){
-                window.location.reload();
-            } 
-            function sectionChange(id){
-                document.getElementById(id).style.display = "block"; // show the selected section
-                document.querySelectorAll('.sidedisplay > div').forEach(function(div) {
-                    if (div.id !== id) {
-                        div.style.display = "none"; // hide all other sections
-                    }
-                });
-            } 
-            
-            sectionChange('dashboard'); // default to dashboard on load
-        </script>
+                    setTimeout(() => {
+                        toast.style.opacity = 0;
+                        setTimeout(() => {
+                            toast.style.zIndex = -1;
+                        }, 500);
+                    }, timeout);
+                }
 
-        <script src='./renderer.js'></script>
+                async function openModel(model) {
+                    const modelText = await window.electronAPI.openModel(model);
 
-        <!-- <script>
+                    // copy model to clipboard
+                    navigator.clipboard.writeText(modelText).then(() => {
+                        openToast('Model copied to clipboard', 2000);
+                    }, (err) => {
+                        console.error('Could not copy model: ', err);
+                    });
+                }
+
+                window.onload = async function () {
+                    (await window.electronAPI.getAllModels()).forEach(model => {
+                        document.getElementById('models').innerHTML += `
+                        <div class="card">
+                            <h2>${model}</h2>
+                            <button class="model-button" onclick="openModel('${model}');">Open Model</button>
+                        </div>
+                    `;
+                    });
+                }
+
+                function refreshPage() {
+                    window.location.reload();
+                }
+                function sectionChange(id) {
+                    document.getElementById(id).style.display = "block"; // show the selected section
+                    document.querySelectorAll('.sidedisplay > div').forEach(function (div) {
+                        if (div.id !== id) {
+                            div.style.display = "none"; // hide all other sections
+                        }
+                    });
+                    document.querySelector('.sidebar > button.active')?.classList.remove('active'); // remove active class from all buttons
+                    document.getElementById(id + 'Button').classList.add('active'); // add active class to the selected button
+                }
+
+                sectionChange('dashboard'); // default to dashboard on load
+            </script>
+
+            <script src='./renderer.js'></script>
+
+            <!-- <script>
             document.getElementById('guideButton').onclick = () => {
                 const display = document.querySelector('.sidedisplay');
                 display.innerHTML = `
@@ -132,5 +191,11 @@
             }
         </script> -->
     </main>
-</body>
 
+
+    <div id="toast">
+        <div class="toast-content">
+            <p>Model copied to clipboard</p>
+        </div>
+    </div>
+</body>
