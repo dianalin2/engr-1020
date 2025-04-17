@@ -1,11 +1,27 @@
-
 const { app, BrowserWindow, shell, dialog, ipcMain } = require('electron')
 const path = require('node:path')
 const { spawn } = require('child_process');
 const fs = require('fs');
 
+const PYTHON_PATH = process.env.PYTHON_PATH ?? 'py';
+
 async function handleGenerateModel(event, path) {
-  const child = spawn('py', ['../collate_open_sysml.py', path],);
+  const child = spawn(PYTHON_PATH, ['../collate_open_sysml.py', path],);
+
+  return new Promise((resolve, reject) => {
+    child.stdout.on('close', () => {
+      resolve();
+    });
+
+    child.stderr.on('data', (data) => {
+      console.error(`stderr: ${data}`);
+      reject(data.toString());
+    });
+  });
+}
+
+async function handleGenerateSysML(event, path) {
+  const child = spawn(PYTHON_PATH, ['../generate_push_sysml.py', path],);
 
   return new Promise((resolve, reject) => {
     child.stdout.on('data', (data) => {
@@ -27,6 +43,46 @@ async function handleOpenModel(event, modelName) {
   return data;
 }
 
+async function handleGetDashboard(event) {
+  const child = spawn(PYTHON_PATH, ['../get_dashboard.py'], { shell: true });
+
+  return new Promise((resolve, reject) => {
+    const allData = [];
+
+    child.stdout.on('data', (data) => {
+      data = data.toString().trim();
+      if (data)
+        allData.push(data);
+    });
+
+    child.stdout.on('close', () => {
+      const result = allData.join('');
+      resolve(JSON.parse(result));
+    });
+
+
+    child.stderr.on('data', (data) => {
+      console.error(`stderr: ${data}`);
+      reject(data.toString());
+    });
+  });
+}
+
+async function handleModifyAsset(event, assetId, newModel) {
+  const child = spawn(PYTHON_PATH, ['../modify_asset.py', assetId, newModel]);
+
+  return new Promise((resolve, reject) => {
+    child.stdout.on('data', (data) => {
+      resolve(data.toString());
+    });
+
+    child.stderr.on('data', (data) => {
+      console.error(`stderr: ${data}`);
+      reject(data.toString());
+    });
+  });
+}
+
 async function getAllModels() {
   const files = fs.readdirSync('../models');
   return files;
@@ -36,7 +92,7 @@ async function handleFileOpen() {
   const { canceled, filePaths } = await dialog.showOpenDialog({})
   if (!canceled) {
     console.log(filePaths[0])
-    const child = spawn('py', ['../push_file_to_db.py', filePaths[0]],);
+    const child = spawn(PYTHON_PATH, ['../push_file_to_db.py', filePaths[0]],);
     child.stdout.pipe(process.stdout)
     child.stderr.pipe(process.stderr)
 
@@ -62,6 +118,9 @@ app.whenReady().then(() => {
   ipcMain.handle('model:getAllModels', getAllModels)
   ipcMain.handle('model:generate', handleGenerateModel)
   ipcMain.handle('dialog:openModel', handleOpenModel)
+  ipcMain.handle('dashboard:get', handleGetDashboard)
+  ipcMain.handle('model:modifyAsset', handleModifyAsset)
+  ipcMain.handle('model:generateAllSysML', handleGenerateSysML)
   createWindow()
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()

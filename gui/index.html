@@ -55,14 +55,16 @@
         <div class="sidedisplay"> <!-- display: everything else (shows models) -->
             <div id="dashboard">
                 <div class="main-flex">
+                    <button onclick="generateSysML()">Generate
+                        SysML</button>
                     <button class="refresh" onClick="refreshPage()">Refresh</button>
                 </div>
 
-                <div class="update-text">
-                    <!-- systems/infrastructure that needs updating -->
+                <div style="overflow-x: auto; margin-top: 20px; position: relative;">
+                    <table id="dashboard-table">
+                        <!-- systems/infrastructure that needs updating -->
+                    </table>
                 </div>
-
-
             </div>
 
             <div id="systems">
@@ -120,9 +122,93 @@
             </div>
 
             <script>
+                async function generateSysML() {
+                    try {
+                        await window.electronAPI.generateSysML();
+                        openToast('SysML generated', 2000);
+                    } catch (error) {
+                        console.error('Error generating SysML:', error);
+                    }
+                }
+
+                function openEditModal(id, model) {
+                    // open edit model modal
+                    const modal = document.getElementById('edit-model-modal');
+                    modal.style.display = 'block';
+                    const modelText = document.getElementById('model-text');
+                    modelText.value = model;
+
+                    document.getElementById('save-button').onclick = async () => {
+                        console.log('Saving model');
+                        const newModelText = modelText.value;
+                        await window.electronAPI.modifyAsset(id, newModelText);
+                        openToast('Model saved', 2000);
+                        modal.style.display = 'none';
+                    }
+                }
+
+                async function getDashboard() {
+                    // get dashboard data
+                    const table = document.getElementById('dashboard-table');
+                    const dashboardData = await window.electronAPI.getDashboard();
+
+                    const rowHeadersSet = new Set(Object.keys(dashboardData[0]));
+                    // drop '_id' and 'model' from rowHeaders
+                    rowHeadersSet.delete('_id');
+                    rowHeadersSet.delete('model');
+
+                    // create row headers
+                    const rowHeaders = Array.from(rowHeadersSet);
+                    rowHeaders.sort((a, b) => a.localeCompare(b));
+
+                    console.log(rowHeaders);
+
+                    // create table headers
+                    const headerRow = document.createElement('tr');
+                    rowHeaders.forEach(header => {
+                        const th = document.createElement('th');
+                        th.innerText = header;
+                        headerRow.appendChild(th);
+                    });
+
+                    const th = document.createElement('th');
+                    th.innerText = 'Model';
+                    headerRow.appendChild(th);
+
+                    table.appendChild(headerRow);
+                    console.log(dashboardData);
+
+                    dashboardData.forEach(data => {
+                        const row = document.createElement('tr');
+                        rowHeaders.forEach(header => {
+                            const td = document.createElement('td');
+                            td.dataset.modelData = data['model'];
+                            td.innerText = data[header];
+                            row.appendChild(td);
+                        });
+                        {
+                            const td = document.createElement('td');
+                            td.innerText = data['model'] ? 'Edit Model' : 'No Model';
+                            row.appendChild(td);
+                            td.onclick = () => {
+                                if (data['model']) {
+                                    openEditModal(data['_id'], data['model']);
+                                } else {
+                                    openToast('No model found', 2000);
+                                }
+                            }
+                        }
+
+                        table.appendChild(row);
+                    });
+                }
+
                 function openToast(text, timeout) {
                     // show toast notification
                     const toast = document.getElementById('toast');
+
+                    const toastContent = document.querySelector('.toast-content p');
+                    toastContent.innerText = text;
 
                     toast.style.opacity = 1;
                     toast.style.zIndex = 1;
@@ -147,6 +233,8 @@
                 }
 
                 window.onload = async function () {
+                    await getDashboard();
+
                     (await window.electronAPI.getAllModels()).forEach(model => {
                         document.getElementById('models').innerHTML += `
                         <div class="card">
@@ -155,6 +243,12 @@
                         </div>
                     `;
                     });
+
+                    document.getElementById('edit-model-modal').onclick = (event) => {
+                        if (event.target === document.getElementById('edit-model-modal')) {
+                            document.getElementById('edit-model-modal').style.display = 'none';
+                        }
+                    }
                 }
 
                 function refreshPage() {
@@ -196,6 +290,16 @@
     <div id="toast">
         <div class="toast-content">
             <p>Model copied to clipboard</p>
+        </div>
+    </div>
+
+    <div id="edit-model-modal" class="modal">
+        <div class="modal-content">
+            <span class="close"
+                onclick="document.getElementById('edit-model-modal').style.display='none'">&times;</span>
+            <span class="title">Edit Model</span>
+            <textarea id="model-text" rows="50" cols="50"></textarea>
+            <button id="save-button">Save</button>
         </div>
     </div>
 </body>

@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import os
 from llm import generate_component_attributes, generate_sysml
 import json
+import datetime
 
 load_dotenv()
 
@@ -38,4 +39,4 @@ for doc in data.find():
         doc_copy['_id'] = str(doc_copy['_id'])
 
         uml_class = generate_sysml(json.dumps(doc_copy), uml_class)
-        data.update_one({"_id": doc["_id"]}, {"$set": {"model": uml_class}})
+        data.update_one({"_id": doc["_id"]}, {"$set": {"model": uml_class, "last_modified": datetime.datetime.now()}})
