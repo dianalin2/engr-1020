@@ -36,7 +36,7 @@ class HardwareAsset {
 def generate_sysml(json_data, class_specs):
     # pipe = pipeline("text-generation", model="meta-llama/Llama-3.2-11B-Vision-Instruct")
     pipe = pipeline("text-generation", model="meta-llama/Llama-3.2-3B-Instruct")
-    print(json_data)
+    # print(json_data)
     # pipe = pipeline("text-generation", model="meta-llama/Llama-3.3-70B-Instruct")
     return pipe([
         {"role": "system", "content": '''
