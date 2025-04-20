@@ -54,10 +54,12 @@
 
         <div class="sidedisplay"> <!-- display: everything else (shows models) -->
             <div id="dashboard">
-                <div class="main-flex">
-                    <button onclick="generateSysML()">Generate
-                        SysML</button>
-                    <button class="refresh" onClick="refreshPage()">Refresh</button>
+                <div class="main-flex" style="flex-direction: row; justify-content: flex-end;">
+                    <div>
+                        <button class="refresh" onclick="generateSysML()">Generate
+                            SysML</button>
+                        <button class="refresh" onClick="refreshPage()">Refresh</button>
+                    </div>
                 </div>
 
                 <div style="overflow-x: auto; margin-top: 20px; position: relative;">
@@ -69,10 +71,13 @@
 
             <div id="systems">
                 <div class="main-flex" style="flex-direction: row; justify-content: space-between;">
-                    <input class="searchContentBar" type="text" id="searchFiles" onkeyup="myFunction()"
-                        placeholder="Search models...">
+                    <input class="searchContentBar" type="text" id="searchFiles" placeholder="Search models...">
                     <!-- search bar to more easily find and access specific models -->
-                    <button class="refresh" onClick="refreshPage()">Refresh</button>
+                    <div>
+                        <button class="refresh" id="generate-model-button" onclick="generateModel()">Generate
+                            Model</button>
+                        <button class="refresh" onClick="refreshPage()">Refresh</button>
+                    </div>
                 </div>
 
                 <div id="models"></div>
@@ -122,9 +127,44 @@
             </div>
 
             <script>
-                async function generateSysML() {
+                async function generateModel() {
+                    openToast('Generating model...', 2000);
+
+                    const path = await window.electronAPI.generateModel();
+
+                    const models = await window.electronAPI.getAllModels()
+
+                    document.getElementById('models').innerHTML = '';
+                    models.forEach(model => {
+                        document.getElementById('models').innerHTML += `
+                        <div class="card" data-model="${model}">
+                            <h2>${model}</h2>
+                            <button class="model-button" onclick="openModel('${model}');">Open Model</button>
+                        </div>
+                    `;
+                    });
+
+                    openToast('Model generated', 2000);
+                }
+
+                window.electronAPI.onSysMLGenerated((modelId, model) => {
+                    const buttonTd = document.querySelector('td[data-model-id="' + modelId + '"]');
+                    openToast('SysML generated for ' + modelId, 2000);
+
+                    if (!buttonTd) {
+                        console.error('No button found for model:', model);
+                        return;
+                    }
+
+                    buttonTd.innerText = 'Edit Model';
+                    buttonTd.onclick = () => {
+                        openEditModal(modelId, model);
+                    }
+                });
+
+                async function generateSysML(models = []) {
                     try {
-                        await window.electronAPI.generateSysML();
+                        await window.electronAPI.generateSysML(models);
                         openToast('SysML generated', 2000);
                     } catch (error) {
                         console.error('Error generating SysML:', error);
@@ -142,10 +182,25 @@
                         console.log('Saving model');
                         const newModelText = modelText.value;
                         await window.electronAPI.modifyAsset(id, newModelText);
-                        openToast('Model saved', 2000);
                         modal.style.display = 'none';
+                        openToast('Model saved', 2000);
                     }
                 }
+
+                document.getElementById("searchFiles").addEventListener("keyup", function (event) {
+                    const filter = event.target.value.toUpperCase();
+
+                    document.querySelectorAll('.card').forEach(function (card) {
+                        if (!card.dataset.model)
+                            return; // skip cards without a model
+
+                        if (card.dataset.model.toUpperCase().indexOf(filter) > -1) {
+                            card.style.display = "block"; // show matching cards
+                        } else {
+                            card.style.display = "none"; // hide non-matching cards
+                        }
+                    });
+                });
 
                 async function getDashboard() {
                     // get dashboard data
@@ -182,19 +237,21 @@
                         const row = document.createElement('tr');
                         rowHeaders.forEach(header => {
                             const td = document.createElement('td');
-                            td.dataset.modelData = data['model'];
                             td.innerText = data[header];
                             row.appendChild(td);
                         });
                         {
                             const td = document.createElement('td');
                             td.innerText = data['model'] ? 'Edit Model' : 'No Model';
+                            td.dataset.modelData = data['model'];
+                            td.dataset.modelId = data['_id'];
                             row.appendChild(td);
                             td.onclick = () => {
                                 if (data['model']) {
                                     openEditModal(data['_id'], data['model']);
                                 } else {
-                                    openToast('No model found', 2000);
+                                    openToast('No model found, generating SysML', 2000);
+                                    generateSysML([data['_id']]);
                                 }
                             }
                         }
@@ -237,7 +294,7 @@
 
                     (await window.electronAPI.getAllModels()).forEach(model => {
                         document.getElementById('models').innerHTML += `
-                        <div class="card">
+                        <div class="card" data-model="${model}">
                             <h2>${model}</h2>
                             <button class="model-button" onclick="openModel('${model}');">Open Model</button>
                         </div>

@@ -40,10 +40,9 @@ for doc in data.find():
 
 # create new temp folder
 import os
-import tempfile
 import datetime
 
-dir = "models/" + datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+dir = "../models/" + datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 os.makedirs(dir, exist_ok=True)
 # print(f"Temporary directory created at: {dir}")
 # create a file in the temp folder
