@@ -207,6 +207,14 @@
                     const table = document.getElementById('dashboard-table');
                     const dashboardData = await window.electronAPI.getDashboard();
 
+                    if (!dashboardData || dashboardData.length === 0) {
+                        table.innerHTML = '<tr><td colspan="2">No data available</td></tr>';
+                        table.style.borderRadius = '10px';
+                        table.style.justifySelf = 'center';
+                        table.style.overflow = 'hidden';
+                        return;
+                    }
+
                     const rowHeadersSet = new Set(Object.keys(dashboardData[0]));
                     // drop '_id' and 'model' from rowHeaders
                     rowHeadersSet.delete('_id');

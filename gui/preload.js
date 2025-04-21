@@ -12,4 +12,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
     console.log('Model generated:', modelId);
     callback(modelId, model);
   }),
+  // onFileProcessed: (callback) => ipcRenderer.on('file:open', (_event, filePath) => {
+  //   console.log('File processed:', filePath);
+  //   callback(filePath);
+  // }),
 })
+
+ipcRenderer.on('file:open', (_event, filePath) => {
+  window.location.reload();
+});

@@ -19,6 +19,7 @@
     "start": "electron ."
   },
   "dependencies": {
+    "dotenv": "^16.5.0",
     "electron": "^35.1.2"
   }
 }
