@@ -34,12 +34,11 @@ A diagram of how the application works is shown below:
 
 3. Deploy a MongoDB database. For more in-depth directions, see [Database Deployment](#database-deployment).
 
-4. Set the following environment variables:
+4. Set your environment variables in your terminal. 
     - `PYTHON_PATH=<your python command>`
     - `HF_TOKEN=<your generated access token>`
-    - `DB_uri=<your database connection url>`
-
-  Alternatively, create a [`.env` file](https://dotenvx.com/docs/env-file#format) with the above environment variable values. 
+    - `DB_uri=<your database connection url>` \
+    + Alternatively, create a [`.env` file](https://dotenvx.com/docs/env-file#format) with the above environment variable values.
 
 5. Deploy a SysML viewer. To easily deploy a SysML viewer on-premises, install [Docker](http://www.docker.com) and Docker Compose on your machine. Then, run `docker compose up app` in the root directory.
 
