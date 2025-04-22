@@ -93,11 +93,12 @@
                     models.
                 </div>
 
-                <h1>Guide</h1>
-                <div class="main-flex" style="flex-direction: row; justify-content: space-between;">
+                <h1>GUI Guide</h1>
+                <div style="display:grid; grid-template-columns: auto auto;">
                     <div class="hone">
                         <p>To view your dashboard, click the Dashboard button.</p>
                         <p>To view the systems, click the Systems button.</p>
+                        <p>To change settings, click the Settings button.</p>
                         <p>To log out and exit, click the Exit button.</p>
                         <p>To upload a file, click the Upload button on the left sidebar.
                             Only CSV files are accepted. The file will automatically be uploaded
@@ -106,25 +107,23 @@
                     </div>
 
                     <div class="hone">
-                        After uploading a file, go to the systems page to begin modeling your system!
-                        Each model will be stored with the date it was created/modified and the models can be searched
-                        and found this way. After selecting a model, you will be brought to the SysML website where
-                        you can create a new model. The Llama generated SysML code will automatically be copied to your
-                        clipboard for you to paste into your SysML modeling software. After the code is pasted, you can
-                        simply create the model! The models can be edited and saved to the database for future use.
+                        <image src="images/csv.gif" alt ="CSV GIF" width="100%">
+                        <p>As of now, our software ONLY accepts CSV files.</p>
+                        <p>In the future, we would like to implement a way for our project to process all file forms.</p>
                     </div>
 
                     <div class="hone">
-                        After the model is created, you can view the dashboard to see the systems that need updating.
-                        The dashboard will show the systems that need updating and the models that are currently being
-                        used. You can click the refresh button to refresh the dashboard and see the
-                        latest updates.
+                        Upload your model back to the app, thanks dawg
                     </div>
                 </div>
 
-                <!-- <div id="settings">
+                <div>
+                    <div class="hone">
+                        <image src="images/sysml.gif" alt="How to use SysML GIF" width="100%">
+                        <p></p>
+                    </div>
 
-            </div> -->
+                </div>
 
             </div>
 
@@ -208,6 +207,14 @@
                     // get dashboard data
                     const table = document.getElementById('dashboard-table');
                     const dashboardData = await window.electronAPI.getDashboard();
+
+                    if (!dashboardData || dashboardData.length === 0) {
+                        table.innerHTML = '<tr><td colspan="2">No data available</td></tr>';
+                        table.style.borderRadius = '10px';
+                        table.style.justifySelf = 'center';
+                        table.style.overflow = 'hidden';
+                        return;
+                    }
 
                     const rowHeadersSet = new Set(Object.keys(dashboardData[0]));
                     // drop '_id' and 'model' from rowHeaders

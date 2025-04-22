@@ -3,6 +3,8 @@ const path = require('node:path')
 const { spawn } = require('child_process');
 const fs = require('fs');
 
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
+
 const PYTHON_PATH = process.env.PYTHON_PATH ?? 'py';
 
 app.whenReady().then(() => {
@@ -78,6 +80,7 @@ app.whenReady().then(() => {
   }
 
   async function handleOpenModel(event, modelName) {
+    fs.mkdirSync(path.join(__dirname, '../models', modelName), { recursive: true });
     const data = fs.readFileSync(`../models/${modelName}/models.sysml`, 'utf8');
 
     shell.openExternal("http://localhost:8080");
@@ -130,7 +133,7 @@ app.whenReady().then(() => {
     return files;
   }
 
-  async function handleFileOpen() {
+  async function handleFileOpen(event) {
     const { canceled, filePaths } = await dialog.showOpenDialog({})
     if (!canceled) {
       console.log(filePaths[0])
@@ -138,7 +141,10 @@ app.whenReady().then(() => {
       child.stdout.pipe(process.stdout)
       child.stderr.pipe(process.stderr)
 
-      return filePaths[0]
+      child.on('close', (code) => {
+        console.log(`Child process exited with code ${code}`);
+        win.webContents.send('file:open', filePaths[0]);
+      });
     }
   }
 

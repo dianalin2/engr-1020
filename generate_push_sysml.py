@@ -45,6 +45,7 @@ for doc in models_found:
 
         doc_copy = doc.copy()
         doc_copy['_id'] = str(doc_copy['_id'])
+        del doc_copy['last_modified']
 
         uml_model = generate_sysml(json.dumps(doc_copy), uml_class)
         data.update_one({"_id": doc["_id"]}, {"$set": {"model": uml_model, "last_modified": datetime.datetime.now()}})
