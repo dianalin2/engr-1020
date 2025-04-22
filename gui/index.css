@@ -112,7 +112,7 @@ input {
     border-radius: 5px;
     background-color: #fff;
     box-shadow: #3C4F76 0 2px 4px;
-    width: 100%;
+    margin: 10px 10px
 }
 
 .card {

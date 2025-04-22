@@ -80,6 +80,7 @@ app.whenReady().then(() => {
   }
 
   async function handleOpenModel(event, modelName) {
+    fs.mkdirSync(path.join(__dirname, '../models', modelName), { recursive: true });
     const data = fs.readFileSync(`../models/${modelName}/models.sysml`, 'utf8');
 
     shell.openExternal("http://localhost:8080");

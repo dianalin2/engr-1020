@@ -93,36 +93,59 @@
                     models.
                 </div>
 
-                <h1>Guide</h1>
-                <div class="main-flex" style="flex-direction: row; justify-content: space-between;">
+                <h1>GUI Guide</h1>
+                <div style="display:grid; grid-template-columns: auto auto;">
                     <div class="hone">
-                        <p>To view your dashboard, click the Dashboard button.</p>
-                        <p>To view the systems, click the Systems button.</p>
-                        <p>To change settings, click the Settings button.</p>
-                        <p>To log out and exit, click the Exit button.</p>
-                        <p>To upload a file, click the Upload button on the left sidebar.
-                            Only CSV files are accepted. The file will automatically be uploaded
-                            to the database for storage only by going through the database can the files be changed.
+                        <image src="images/upload.gif" alt="Upload GIF" width="100%">
+                        <p>On refresh or open, the desktop app is defaulty set to the Dashboard subsection.</p>
+                        <p>To start, click the upload button to input your data.</p>
+                    </div>
+
+                    <div class="hone">
+                        <image src="images/csv.gif" alt ="CSV GIF" width="100%">
+                        <p>As of now, our software ONLY accepts CSV files.</p>
+                        <p>In the future, we would like to implement a way for our project to process all file forms.</p>
+                    </div>
+
+                    <div class="hone">
+                        <image src="images/generate.gif" alt="Generate SysML Code GIF" width="100%">
+                        <p>After uploading a file, each asset will be processed and displayed in the Dashboard subpage.</p>
+                        <p>To first generate SysML models, click the "Generate SysML" in the upper left corner and an indicator
+                            at the bottom will appear, displaying the model generation progress of the assets. 
+                        </p>
+                        <p>Another indicator that the model has finished generating is when the status changes from "No Model" to "Edit Model".</p>
+                    </div>
+                    <div class="hone">
+                        <image src="images/code.gif" alt="SysML Code GIF" width="100%">
+                        <p> Clicking on the Edit Model button will display the corresponding SysML code for that asset. </p>
+                        <p> This code can be edited and saved back to the database if any errors occur during generation.</p>
+                        <p> We would like to implement in the future a visual indicator to confirm that the model
+                            has been saved after clicking the save button. 
                         </p>
                     </div>
-
                     <div class="hone">
-                        After uploading a file, go to the systems page to begin modeling your system!
-                        Each model will be stored with the date it was created/modified and the models can be searched
-                        and found this way. After selecting a model, you will be brought to the SysML website where
-                        you can create a new model. The Llama generated SysML code will automatically be copied to your
-                        clipboard for you to paste into your SysML modeling software. After the code is pasted, you can
-                        simply create the model! The models can be edited and saved to the database for future use.
+                        <image src="images/system.gif" alt="System Subpage GIF" width="100%">
+                        <p>Similar to the dashboard page, after clicking generate models, a general model of the entire system
+                            will be generated and displayed in the Systems subpage under a certain date so that it can be easily
+                            referenced in the future using the search bar.
+                        </p>
+                        <p>A generation status will also appear on the bottom of the app.</p>
                     </div>
-
                     <div class="hone">
-                        Upload your model back to the app, thanks dawg
+                        <image src="images/viewer.gif" alt="Open SysML Viewer GIF" width="100%">
+                        <p>Clicking the open model button of the systems will automatically copy the SysML code to the clipboard
+                            and open a free SysML viewer. </p>
+                        <p>When in the SysML viewer, create a new SysML v2 project.</p>
                     </div>
                 </div>
 
-                <!-- <div id="settings">
+                <div>
+                    <div class="hone">
+                        <image src="images/sysml.gif" alt="How to use SysML GIF" width="100%">
+                        <p></p>
+                    </div>
 
-            </div> -->
+                </div>
 
             </div>
 
