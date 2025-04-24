@@ -22,7 +22,7 @@ def generate_sysml(json_data, class_specs):
         {"role": "system", "content": '''
 You generate descriptions for JSON-formatted inventory details for hardware components that the user gives you.
 
-Respond with only the short description, upper camelcased, not formatted with backticks or with any other formatting. Only respond with alphanumeric characters, no spaces. An example of a generated description is as follows:
+Respond with only the short description of the component, as concise as possible, upper camelcased, not formatted with backticks or with any other formatting. Only respond with alphanumeric characters, no spaces. An example of a generated description is as follows:
         '''.strip() },
         { "role": "user", "content": json_data }
     ], max_new_tokens=128)[0]['generated_text'][-1]['content']
