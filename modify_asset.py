@@ -15,7 +15,7 @@ uri = os.getenv("DB_uri")
 id = sys.argv[1]
 new_model = sys.argv[2]
 
-# Create a new client and connect to the server
+# create a new client and connect to the server
 client = MongoClient(uri, server_api=ServerApi('1'))
 
 db = client["engr1020"]
@@ -25,6 +25,6 @@ class_spec = db["component_class_spec"]
 data = db["data"]
 
 db.data.create_index([("Asset Identifier", pymongo.ASCENDING), ("Serial Number"), ("Location ID")], unique=True)
-# Loop through the data and update with the new json where _id = id (as an object id)
 
+# update the document with the new class spec that was passed in
 data.find_one_and_update({"_id": ObjectId(id)}, {"$set": {"model": new_model, "last_modified": datetime.datetime.now()}})

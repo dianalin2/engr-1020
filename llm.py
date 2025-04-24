@@ -1,12 +1,13 @@
 from transformers import pipeline
 import json
 
+# convert space-separated string to camel case
 def to_camel_case(space_separated_string, lower_first=True):
     words = space_separated_string.split()
     words[0] = words[0].lower() if lower_first else words[0].capitalize()
     return words[0] + ''.join(word.capitalize() for word in words[1:])
 
-# generate SysML v2 textual class specification for a hardware component with Llama 3.2
+# generate SysML v2 textual class specification for a hardware component
 def generate_component_attributes(component):
     return ''.join([
         "class HardwareAsset {\n",

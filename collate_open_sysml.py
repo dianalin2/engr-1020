@@ -10,7 +10,7 @@ load_dotenv()
 
 uri = os.getenv("DB_uri")
 
-# Create a new client and connect to the server
+# create a new client and connect to the server
 client = MongoClient(uri, server_api=ServerApi('1'))
 
 db = client["engr1020"]
@@ -18,6 +18,7 @@ db = client["engr1020"]
 class_spec = db["component_class_spec"]
 
 data = db["data"]
+
 # generate sysml v2 textual class specification for a hardware component based on the names of the fields in db["data"]
 if class_spec.count_documents({}) == 0:
     uml_class = generate_component_attributes(data.find_one().keys())
@@ -25,27 +26,28 @@ if class_spec.count_documents({}) == 0:
 else:
     uml_class = class_spec.find_one()["class_spec"]
 
-# have some identifier that is unique so that data will only appear once in the database. then loop through the data and update with the new class spec
 models = []
 models_by_room = {}
+
+# have some identifier that is unique so that data will only appear once in the database. then loop through the data and update with the new class spec
 db.data.create_index([("Asset Identifier", pymongo.ASCENDING), ("Serial Number"), ("Location ID")], unique=True)
+
 for doc in data.find():
     # check if the document has the "model" field
     if "model" in doc:
-        # update the document with the new class spec, generate a sysml v2 textual class specification for a hardware component based on the content of the document
+        # add the model to the list of models in the room
         if doc["Location ID"] not in models_by_room:
             models_by_room[doc["Location ID"]] = []
-
         models_by_room[doc["Location ID"]].append(doc["model"])
 
-# create new temp folder
+# create new folder for the models
 import os
 import datetime
 
 dir = "../models/" + datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 os.makedirs(dir, exist_ok=True)
-# print(f"Temporary directory created at: {dir}")
-# create a file in the temp folder
+
+# create a file in the folder with the models for each room
 with open(os.path.join(dir, "models.sysml"), "w") as f:
     # print(f"Writing models to {os.path.join(dir, 'models.txt')}")
     f.write(uml_class + "\n")
