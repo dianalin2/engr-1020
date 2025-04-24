@@ -19,6 +19,7 @@ class_spec = db["component_class_spec"]
 
 data = db["data"]
 
+# open dashboard data
 all_assets = []
 db.data.create_index([("Asset Identifier", pymongo.ASCENDING), ("Serial Number"), ("Location ID")], unique=True)
 for doc in data.find():
